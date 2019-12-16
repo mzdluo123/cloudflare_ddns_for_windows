@@ -1,0 +1,4 @@
+requests
+pyinstall
+psutil
+tld
