@@ -1,0 +1,2 @@
+# cloudflare_ddns_for_windows
+自用的cloudflare ddns脚本，支持Windows
