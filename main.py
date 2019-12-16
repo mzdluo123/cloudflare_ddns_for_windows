@@ -1,14 +1,13 @@
 import argparse
 import json
 import os
-import re
 import requests
 import socket
 import configparser
 from tld import get_fld
 import psutil
 
-CONFIGURATION_FILE = os.path.expanduser('~/') + '.cloudflare-ddns'
+CONFIGURATION_FILE = os.path.expanduser('~/') + '.cloudflare-ddns-'
 
 EXTERNAL_IP_QUERY_API = 'https://api.ipify.org/?format=json'
 CLOUDFLARE_ZONE_QUERY_API = 'https://api.cloudflare.com/client/v4/zones'  # GET
@@ -25,6 +24,7 @@ def load_arguments():
     parser.add_argument('--configure', action='store_true',
                         help='Interactively configure the account and domain for the DDNS updates')
     parser.add_argument('--update-now', action='store_true', help='Update DNS records right now')
+    parser.add_argument('--config', default='default')
     return parser.parse_args()
 
 
@@ -208,7 +208,9 @@ def main():
     """
     Main program: either make the configuration file or update the DNS
     """
+    global CONFIGURATION_FILE
     args = load_arguments()
+    CONFIGURATION_FILE += args.config
     if args.configure:
         initialize_configuration()
     elif args.update_now:
